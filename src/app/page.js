@@ -4,16 +4,19 @@ import React, { useState, useEffect } from 'react'
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
   useEffect(() => {
     const username = localStorage.getItem("username");
     const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
     setIsLoggedIn(username !== null && userid !== null);
   }, []);
   return (
     <main className="min-h-screen flex-col items-center justify-between p-24">
       <div style={{ textAlign: "center", fontWeight: "bold", fontSize: "30px", marginBottom: "30px" }}>
-        <h1>Welcome to JobHub! </h1>
+        <h1>Welcome to JobHub! User: {username}</h1>
         <h1>JobHub is a job board that connects job seekers and employers!</h1>
       </div>
       {isLoggedIn ? (

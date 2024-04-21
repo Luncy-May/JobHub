@@ -45,7 +45,7 @@ export default function JobPost() {
     const handleChangeDescription = (e) => {
         setDescription(e.target.value)
     }
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState("")
     const [userid, setUserID] = useState("")
     useEffect(() => {
