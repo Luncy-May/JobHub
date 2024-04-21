@@ -16,11 +16,11 @@ export default function Register() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            username: localStorage.getItem("username"),
-            userid:localStorage.getItem("userid"),
+            username: username,
+            userid: userid,
             
-            oldusername: localStorage.getItem("username"),
-            userid:localStorage.getItem("userid"),
+            oldusername: username,
+            userid: userid,
             newusername: newUsername,
         }),
       })
@@ -50,16 +50,20 @@ export default function Register() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        const username = localStorage.getItem("username");
-        const userid = localStorage.getItem("userid");
-        setIsLoggedIn(username !== null && userid !== null);
-    }, []);
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
+    setIsLoggedIn(username !== null && userid !== null);
+  }, []);
   return (
     <div className="min-h-screen flex-col items-center justify-between p-24">
     {isLoggedIn ? (<div>
       <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>
-        <h1>Welcome! {localStorage.getItem("username")}</h1>
+        <h1>Welcome! {username}</h1>
         <Link href={"/"}>Return to Home</Link>
         <h1 style = {{fontWeight:"bold",fontSize:"20px"}}><Link href = {"/Profile"}>Profile</Link></h1>
       </h1>

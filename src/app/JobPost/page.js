@@ -5,8 +5,6 @@ export default function JobPost() {
     const [message, setMessage] = useState("")
     const [jobname, setJobname] = useState("")
     const [description, setDescription] = useState("")
-    const publisherid = localStorage.getItem("userid")
-    const publishername = localStorage.getItem('username')
     async function onSubmit(event) {
         event.preventDefault()
         try {
@@ -16,13 +14,13 @@ export default function JobPost() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: localStorage.getItem("username"),
-                    userid: localStorage.getItem("userid"),
+                    username: username,
+                    userid: userid,
 
                     jobname: jobname,
                     description: description,
-                    publisherid: publisherid,
-                    publishername: publishername
+                    publisherid: userid,
+                    publishername: username
                 }),
             })
 
@@ -48,36 +46,38 @@ export default function JobPost() {
         setDescription(e.target.value)
     }
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+    const [username, setUsername] = useState("")
+    const [userid, setUserID] = useState("")
     useEffect(() => {
         const username = localStorage.getItem("username");
         const userid = localStorage.getItem("userid");
+        setUsername(username)
+        setUserID(userid)
         setIsLoggedIn(username !== null && userid !== null);
     }, []);
-  return (
+    return (
         <div className="min-h-screen flex-col items-center justify-between p-24">
-    {isLoggedIn ? (<div>
-        <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>
-                <h1>Welcome! {localStorage.getItem("username")}</h1>
+            {isLoggedIn ? (<div>
+                <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>
+                    <h1>Welcome! {username}</h1>
+                    <Link href={"/"}>Return to Home</Link>
+                </h1>
+                <h1>Ready to post a job? Here you go!</h1>
+                {message && <div style={{ color: 'red' }}>{message}</div>}
+                <form onSubmit={onSubmit}>
+                    <h2>What is the title of the job? </h2>
+                    <input type="text" name="jobname" placeholder='job title here' onChange={handleChangeJobname} required />
+                    <h2>What is the description?</h2>
+                    <input type="text" name="description" placeholder='description here' onChange={handleChangeDescription} required />
+                    <br></br><button type="submit">
+                        Submit
+                    </button>
+                </form>
+            </div>) : (<div>
                 <Link href={"/"}>Return to Home</Link>
-            </h1>
-            <h1>Ready to post a job? Here you go!</h1>
-            {message && <div style={{ color: 'red' }}>{message}</div>}
-            <form onSubmit={onSubmit}>
-                <h2>What is the title of the job? </h2>
-                <input type="text" name="jobname" placeholder='job title here' onChange={handleChangeJobname} required />
-                <h2>What is the description?</h2>
-                <input type="text" name="description" placeholder='description here' onChange={handleChangeDescription} required />
-                <br></br><button type="submit">
-                    Submit
-                </button>
-            </form>
-    </div>) : (<div>
-      <Link href={"/"}>Return to Home</Link>
-      <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>Please Login To View The Content</h1>
-    </div>)}
-            
+                <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>Please Login To View The Content</h1>
+            </div>)}
+
         </div>
     );
 }

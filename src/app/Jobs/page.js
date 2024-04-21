@@ -45,8 +45,8 @@ export default function Jobs() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: localStorage.getItem("username"),
-          userid: localStorage.getItem("userid"),
+          username: username,
+          userid: userid,
 
           jobname: searchContent
         }),
@@ -85,8 +85,8 @@ export default function Jobs() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: localStorage.getItem("username"),
-          userid: localStorage.getItem("userid"),
+          username: username,
+          userid: userid,
           jobid: jobid
         }),
       })
@@ -123,8 +123,8 @@ export default function Jobs() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: localStorage.getItem("username"),
-          userid: localStorage.getItem("userid"),
+          username: username,
+          userid: userid,
           jobid: jobid
         }),
       })
@@ -152,15 +152,19 @@ export default function Jobs() {
     setSearchContent(e.target.value)
   }
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
   useEffect(() => {
     const username = localStorage.getItem("username");
     const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
     setIsLoggedIn(username !== null && userid !== null);
   }, []);
   return (
     <div className="min-h-screen flex-col jobs-center justify-between p-24">
       {isLoggedIn ? (<div>
-        <h1>Welcome! {localStorage.getItem("username")}</h1>
+        <h1>Welcome! {username}</h1>
         <Link href={"/"}>Return to Home</Link>
         <h2>Search A Job (Case-sensitive):</h2>
         <form onSubmit={onSearch}>

@@ -7,34 +7,44 @@ export default function Jobs() {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
     const [searchContent, setSearchContent] = useState("")
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState("")
+    const [userid, setUserID] = useState("")
+    useEffect(() => {
+        const username = localStorage.getItem("username");
+        const userid = localStorage.getItem("userid");
+        setUsername(username)
+        setUserID(userid)
+        setIsLoggedIn(username !== null && userid !== null);
+    }, []);
     useEffect(() => {
         const getJobs = async () => {
-          try {
-            const res = await fetch('http://localhost:3000/api/ManageJobs/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: localStorage.getItem("username"),
-                    userid: localStorage.getItem("userid")
-                }),
-            });
-    
-            if (!res.ok) {
-              throw new Error('Failed to fetch jobs');
+            try {
+                const res = await fetch('http://localhost:3000/api/ManageJobs/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        userid: userid,
+                    }),
+                });
+
+                if (!res.ok) {
+                    throw new Error('Failed to fetch jobs');
+                }
+
+                const data = await res.json();
+                console.log(data); // Check the structure of the response data
+                setJobsList(data.data);
+            } catch (error) {
+                console.error(error);
             }
-    
-            const data = await res.json();
-            console.log(data); // Check the structure of the response data
-            setJobsList(data.data);
-          } catch (error) {
-            console.error(error);
-          }
         };
-    
+
         getJobs();
-      }, []);
+    }, [username,userid]);
     async function onSearch(event) {
         event.preventDefault()
         setIsLoading(true)
@@ -49,8 +59,8 @@ export default function Jobs() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: localStorage.getItem("username"),
-                    userid: localStorage.getItem("userid"),
+                    username: username,
+                    userid: userid,
 
                     jobname: searchContent
                 }),
@@ -89,8 +99,8 @@ export default function Jobs() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: localStorage.getItem("username"),
-                    userid: localStorage.getItem("userid"),
+                    username: username,
+                    userid: userid,
                     jobid: jobid
                 }),
             })
@@ -128,8 +138,8 @@ export default function Jobs() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: localStorage.getItem("username"),
-                    userid: localStorage.getItem("userid"),
+                    username: username,
+                    userid: userid,
                     jobid: jobid
                 }),
             })
@@ -159,17 +169,10 @@ export default function Jobs() {
     console.log("This is the jobsList:");
     console.log(JobsList);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const username = localStorage.getItem("username");
-        const userid = localStorage.getItem("userid");
-        setIsLoggedIn(username !== null && userid !== null);
-    }, []);
     return (
         <div className="min-h-screen flex-col jobs-center justify-between p-24">
             {isLoggedIn ? (<div>
-                <h1>Welcome! {localStorage.getItem("username")}</h1>
+                <h1>Welcome! {username}</h1>
                 <Link href={"/"}>Return to Home</Link>
                 <h2>Search A Job (Case-sensitive):</h2>
                 <form onSubmit={onSearch}>
@@ -190,13 +193,13 @@ export default function Jobs() {
                                 publishername={job.publishername}
                                 status={job.status}
                             />
-                            <div style={{ display: "flex", marginBottom: "20px"}}>
-                            <form onSubmit={(e) => onOpen(e, job.jobid)} style={{ marginRight:'20px' }}>
-                                <button type="submit">Open</button>
-                            </form>
-                            <form onSubmit={(e) => onClose(e, job.jobid)}>
-                                <button type="submit">Close</button>
-                            </form>
+                            <div style={{ display: "flex", marginBottom: "20px" }}>
+                                <form onSubmit={(e) => onOpen(e, job.jobid)} style={{ marginRight: '20px' }}>
+                                    <button type="submit">Open</button>
+                                </form>
+                                <form onSubmit={(e) => onClose(e, job.jobid)}>
+                                    <button type="submit">Close</button>
+                                </form>
                             </div>
                         </div>
                     ))}

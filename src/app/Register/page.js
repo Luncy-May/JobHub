@@ -4,7 +4,6 @@ import Link from 'next/link';
 export default function Register() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
   async function onSubmit(event) {
@@ -53,18 +52,20 @@ export default function Register() {
     setEmail(e.target.value)
   }
 
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
   useEffect(() => {
     const username = localStorage.getItem("username");
     const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
     setIsLoggedIn(username !== null && userid !== null);
   }, []);
   return (
     <div className="min-h-screen flex-col items-center justify-between p-24">
       <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>
-        <h1>Welcome! {localStorage.getItem("username")}</h1>
+        <h1>Welcome! {username}</h1>
         <Link href={"/"}>Return to Home</Link>
       </h1>
       <h1>Ready to register? Here you go!</h1>

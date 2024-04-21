@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 const Logout = () => {
     const onSubmit = () => {
-        localStorage.removeItem("username");
-        alert('Successfully logged out')
-        localStorage.removeItem("userid");
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem("username");
+            alert('Successfully logged out')
+            localStorage.removeItem("userid");
+        }
     }
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 

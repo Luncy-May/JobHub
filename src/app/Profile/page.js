@@ -4,10 +4,13 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 const Profile = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
   useEffect(() => {
     const username = localStorage.getItem("username");
     const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
     setIsLoggedIn(username !== null && userid !== null);
   }, []);
   return (

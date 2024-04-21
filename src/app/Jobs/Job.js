@@ -2,6 +2,15 @@
 import React, { useState, useEffect } from 'react'
 
 const Job = ({ jobname, description, applicantNum, publisherid, publishername, status }) => {
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
+    setIsLoggedIn(username !== null && userid !== null);
+  }, []);
   return (
     <div style={{ border: "1px black solid", width: "25%" }}>
       <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>{jobname}</h1>

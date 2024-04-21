@@ -4,7 +4,6 @@ import Link from 'next/link';
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   async function onSubmit(event) {
@@ -30,9 +29,11 @@ export default function Login() {
       const data = await response.json()
       setError(data.message)
       if (data.success) {
-        localStorage.setItem("username", username)
-        localStorage.setItem("userid", data.userid)
-        setUsername(localStorage.getItem("username"))
+        if (typeof window !== 'undefined') {
+          localStorage.setItem("username", username)
+          localStorage.setItem("userid", data.userid)
+          setUsername(localStorage.getItem("username"))
+        }
       }
     } catch (error) {
       // Capture the error message to display to the user
@@ -51,10 +52,13 @@ export default function Login() {
   }
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [username, setUsername] = useState("")
+  const [userid, setUserID] = useState("")
   useEffect(() => {
     const username = localStorage.getItem("username");
     const userid = localStorage.getItem("userid");
+    setUsername(username)
+    setUserID(userid)
     setIsLoggedIn(username !== null && userid !== null);
   }, []);
   return (
@@ -63,7 +67,7 @@ export default function Login() {
         <Link href={"/"}>Return to Home</Link>
         <h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>You are already logged in!</h1>
       </div>) : (<div><h1 style={{ fontWeight: "bold", fontSize: "20px", marginTop: "20px", marginBottom: "20px" }}>
-        <h1>Welcome! {localStorage.getItem("username")}</h1>
+        <h1>Welcome! {username}</h1>
         <Link href={"/"}>Return to Home</Link>
       </h1>
         <h1>Ready to login? Here you go!</h1>

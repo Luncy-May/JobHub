@@ -16,12 +16,11 @@ export default function Home() {
         <h1>Welcome to JobHub! </h1>
         <h1>JobHub is a job board that connects job seekers and employers!</h1>
       </div>
-      <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/Dashboard"}>Dashboard</Link></h1>
-      <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/Jobs"}>View Jobs</Link></h1>
       {isLoggedIn ? (
         <div>
-        <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/JobPost"}>Post a Job</Link></h1>
-        <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/ManageJobs"}>Manage Your Job</Link></h1>
+          <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/Jobs"}>View Jobs</Link></h1>
+          <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/JobPost"}>Post a Job</Link></h1>
+          <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/ManageJobs"}>Manage Your Job</Link></h1>
           <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/Profile"}>Profile</Link></h1>
           <h1 style={{ fontWeight: "bold", fontSize: "20px" }}><Link href={"/Logout"}>Logout</Link></h1>
         </div>
